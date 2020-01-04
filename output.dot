@@ -1,0 +1,59 @@
+digraph G {
+00[label="compilationUnit\n classMain{publicstaticvoidmain(String[]args){inta=2*-3+4/3*5;}}<EOF> "]
+11[label="classDeclaration\n classMain{publicstaticvoidmain(String[]args){inta=2*-3+4/3*5;}} "]
+22[label="classBody\n {publicstaticvoidmain(String[]args){inta=2*-3+4/3*5;}} "]
+33[label="classBodyDeclaration\n publicstaticvoidmain(String[]args){inta=2*-3+4/3*5;} "]
+44[label="classOrInterfaceModifier\n public "]
+45[label="classOrInterfaceModifier\n static "]
+46[label="methodDeclaration\n voidmain(String[]args){inta=2*-3+4/3*5;} "]
+57[label="typeTypeOrVoid\n void "]
+58[label="formalParameters\n (String[]args) "]
+69[label="formalParameter\n String[]args "]
+710[label="typeType\n String[] "]
+811[label="classOrInterfaceType\n String "]
+712[label="variableDeclaratorId\n args "]
+513[label="block\n {inta=2*-3+4/3*5;} "]
+614[label="blockStatement\n inta=2*-3+4/3*5; "]
+715[label="localVariableDeclaration\n inta=2*-3+4/3*5 "]
+816[label="primitiveType\n int "]
+817[label="variableDeclarator\n a=2*-3+4/3*5 "]
+918[label="variableDeclaratorId\n a "]
+919[label="expression\n 2*-3+4/3*5 "]
+1020[label="expression\n 2*-3 "]
+1121[label="integerLiteral\n 2 "]
+1122[label="expression\n -3 "]
+1223[label="integerLiteral\n 3 "]
+1024[label="expression\n 4/3*5 "]
+1125[label="expression\n 4/3 "]
+1226[label="integerLiteral\n 4 "]
+1227[label="integerLiteral\n 3 "]
+1128[label="integerLiteral\n 5 "]
+00->11
+11->22
+22->33
+33->44
+33->45
+33->46
+46->57
+46->58
+58->69
+69->710
+710->811
+69->712
+46->513
+513->614
+614->715
+715->816
+715->817
+817->918
+817->919
+919->1020
+1020->1121
+1020->1122
+1122->1223
+919->1024
+1024->1125
+1125->1226
+1125->1227
+1024->1128
+}
