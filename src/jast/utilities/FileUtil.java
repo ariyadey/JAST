@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class FileUtil {
+    public static String pathToInput = "input.java";
+    public static String pathToOutput = "output.dot";
 
     public static String getFileContent(String filePath) {
         try {

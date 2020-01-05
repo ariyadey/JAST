@@ -3,7 +3,6 @@ package jast.gui;
 import javax.swing.*;
 import java.awt.event.*;
 
-import jast.Main;
 import jast.utilities.*;
 
 public class MainFrm extends JDialog {
@@ -50,7 +49,7 @@ public class MainFrm extends JDialog {
     private void onOK() {
         var content = "";
         if (fromFileButton.isSelected()) {
-            content = FileUtil.getFileContent(Main.pathToInput);
+            content = FileUtil.getFileContent(FileUtil.pathToInput);
         } else {
             content = textArea1.getText();
             System.out.println(content);
@@ -63,11 +62,11 @@ public class MainFrm extends JDialog {
         AntlrUtil.writeDOT();
         AntlrUtil.output = AntlrUtil.output.concat("}");
 //        System.out.println("}");
-        FileUtil.writeToFile(Main.pathToOutput, AntlrUtil.output);
+        FileUtil.writeToFile(FileUtil.pathToOutput, AntlrUtil.output);
 
         setVisible(false);
         FinalMsg finalMsg = new FinalMsg();
-        finalMsg.textArea1.setText(FileUtil.getFileContent(Main.pathToOutput));
+        finalMsg.textArea1.setText(FileUtil.getFileContent(FileUtil.pathToOutput));
         finalMsg.pack();
         finalMsg.setVisible(true);
         System.out.println(AntlrUtil.output);
