@@ -1,7 +1,7 @@
-package co.daylam.utilities;
+package utilities;
 
-import co.daylam.antlr.JavaLexer;
-import co.daylam.antlr.JavaParser;
+import antlr.JavaLexer;
+import antlr.JavaParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;

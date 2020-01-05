@@ -1,4 +1,4 @@
-package co.daylam.utilities;
+package utilities;
 
 import java.io.File;
 import java.io.IOException;

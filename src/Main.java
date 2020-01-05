@@ -1,6 +1,4 @@
-package co.daylam;
-
-import co.daylam.gui.InitialMsg;
+import gui.InitialMsg;
 
 public class Main {
 
