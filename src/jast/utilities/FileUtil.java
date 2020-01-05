@@ -1,4 +1,4 @@
-package utilities;
+package jast.utilities;
 
 import java.io.File;
 import java.io.IOException;

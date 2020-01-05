@@ -1,4 +1,4 @@
-package antlr;// Generated from JavaParser.g4 by ANTLR 4.7.1
+package jast.antlr;// Generated from JavaParser.g4 by ANTLR 4.7.1
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;

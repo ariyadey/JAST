@@ -1,14 +1,20 @@
-package gui;
+package jast.gui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
-public class InitialMsg extends JDialog {
+public class FinalMsg extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTextPane theASTHasBeenTextPane;
+    JTextArea textArea1;
 
-    public InitialMsg() {
+    public FinalMsg() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -42,12 +48,12 @@ public class InitialMsg extends JDialog {
     }
 
     private void onOK() {
-        setVisible(false);
-        MainFrm mainFrm = new MainFrm();
-//        mainFrm.textArea1.setEnabled(false);
-        mainFrm.pack();
-        mainFrm.setVisible(true);
-        dispose();
+        try {
+            Desktop.getDesktop().browse(new URI("http://webgraphviz.com/"));
+        } catch (IOException | URISyntaxException e1) {
+            e1.getMessage();
+        }
+//        dispose();
     }
 
     private void onCancel() {

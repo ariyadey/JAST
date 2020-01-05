@@ -1,4 +1,6 @@
-import gui.InitialMsg;
+package jast;
+
+import jast.gui.InitialMsg;
 
 public class Main {
 

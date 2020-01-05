@@ -1,20 +1,20 @@
-package gui;
+package jast.gui;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
-public class FinalMsg extends JDialog {
+import jast.Main;
+import jast.utilities.*;
+
+public class MainFrm extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextPane theASTHasBeenTextPane;
     JTextArea textArea1;
+    private JRadioButton fromTextAreaButton;
+    private JRadioButton fromFileButton;
 
-    public FinalMsg() {
+    public MainFrm() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -48,12 +48,30 @@ public class FinalMsg extends JDialog {
     }
 
     private void onOK() {
-        try {
-            Desktop.getDesktop().browse(new URI("http://webgraphviz.com/"));
-        } catch (IOException | URISyntaxException e1) {
-            e1.getMessage();
+        var content = "";
+        if (fromFileButton.isSelected()) {
+            content = FileUtil.getFileContent(Main.pathToInput);
+        } else {
+            content = textArea1.getText();
+            System.out.println(content);
         }
-//        dispose();
+
+        AntlrUtil.generateAST(AntlrUtil.getRuleContext(content), false, 0);
+        AntlrUtil.output = AntlrUtil.output.concat("digraph G {");
+        AntlrUtil.output = AntlrUtil.output.concat("\n");
+//        System.out.println("digraph G {");
+        AntlrUtil.writeDOT();
+        AntlrUtil.output = AntlrUtil.output.concat("}");
+//        System.out.println("}");
+        FileUtil.writeToFile(Main.pathToOutput, AntlrUtil.output);
+
+        setVisible(false);
+        FinalMsg finalMsg = new FinalMsg();
+        finalMsg.textArea1.setText(FileUtil.getFileContent(Main.pathToOutput));
+        finalMsg.pack();
+        finalMsg.setVisible(true);
+        System.out.println(AntlrUtil.output);
+        dispose();
     }
 
     private void onCancel() {

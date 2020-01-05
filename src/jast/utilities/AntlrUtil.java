@@ -1,7 +1,7 @@
-package utilities;
+package jast.utilities;
 
-import antlr.JavaLexer;
-import antlr.JavaParser;
+import jast.antlr.JavaLexer;
+import jast.antlr.JavaParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;

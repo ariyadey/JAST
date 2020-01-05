@@ -1,20 +1,14 @@
-package gui;
+package jast.gui;
 
 import javax.swing.*;
 import java.awt.event.*;
 
-import Main;
-import utilities.*;
-
-public class MainFrm extends JDialog {
+public class InitialMsg extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    JTextArea textArea1;
-    private JRadioButton fromTextAreaButton;
-    private JRadioButton fromFileButton;
 
-    public MainFrm() {
+    public InitialMsg() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -48,29 +42,11 @@ public class MainFrm extends JDialog {
     }
 
     private void onOK() {
-        var content = "";
-        if (fromFileButton.isSelected()) {
-            content = FileUtil.getFileContent(Main.pathToInput);
-        } else {
-            content = textArea1.getText();
-            System.out.println(content);
-        }
-
-        AntlrUtil.generateAST(AntlrUtil.getRuleContext(content), false, 0);
-        AntlrUtil.output = AntlrUtil.output.concat("digraph G {");
-        AntlrUtil.output = AntlrUtil.output.concat("\n");
-//        System.out.println("digraph G {");
-        AntlrUtil.writeDOT();
-        AntlrUtil.output = AntlrUtil.output.concat("}");
-//        System.out.println("}");
-        FileUtil.writeToFile(Main.pathToOutput, AntlrUtil.output);
-
         setVisible(false);
-        FinalMsg finalMsg = new FinalMsg();
-        finalMsg.textArea1.setText(FileUtil.getFileContent(Main.pathToOutput));
-        finalMsg.pack();
-        finalMsg.setVisible(true);
-        System.out.println(AntlrUtil.output);
+        MainFrm mainFrm = new MainFrm();
+//        mainFrm.textArea1.setEnabled(false);
+        mainFrm.pack();
+        mainFrm.setVisible(true);
         dispose();
     }
 
