@@ -8,5 +8,6 @@ public class Main {
         InitialMsg initialMsg = new InitialMsg();
         initialMsg.pack();
         initialMsg.setVisible(true);
+        initialMsg.dispose();
     }
 }
