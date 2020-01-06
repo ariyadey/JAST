@@ -1,10 +1,12 @@
-package co.daylam.gui;
+package jast.gui;
+
+import jast.utilities.AntlrUtil;
+import jast.utilities.FileUtil;
 
 import javax.swing.*;
-import java.awt.event.*;
-
-import co.daylam.Main;
-import co.daylam.utilities.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MainFrm extends JDialog {
     private JPanel contentPane;
@@ -19,17 +21,9 @@ public class MainFrm extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonOK.addActionListener(e -> onOK());
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonCancel.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -40,37 +34,32 @@ public class MainFrm extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void onOK() {
         var content = "";
         if (fromFileButton.isSelected()) {
-            content = FileUtil.getFileContent(Main.pathToInput);
+            content = FileUtil.getFileContent(FileUtil.pathToInput);
         } else {
             content = textArea1.getText();
-            System.out.println(content);
         }
 
         AntlrUtil.generateAST(AntlrUtil.getRuleContext(content), false, 0);
         AntlrUtil.output = AntlrUtil.output.concat("digraph G {");
         AntlrUtil.output = AntlrUtil.output.concat("\n");
-//        System.out.println("digraph G {");
         AntlrUtil.writeDOT();
         AntlrUtil.output = AntlrUtil.output.concat("}");
-//        System.out.println("}");
-        FileUtil.writeToFile(Main.pathToOutput, AntlrUtil.output);
+
+        FileUtil.writeToFile(FileUtil.pathToOutput, AntlrUtil.output);
 
         setVisible(false);
         FinalMsg finalMsg = new FinalMsg();
-        finalMsg.textArea1.setText(FileUtil.getFileContent(Main.pathToOutput));
+        finalMsg.textArea1.setText(FileUtil.getFileContent(FileUtil.pathToOutput));
         finalMsg.pack();
         finalMsg.setVisible(true);
-        System.out.println(AntlrUtil.output);
         dispose();
     }
 

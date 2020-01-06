@@ -1,12 +1,14 @@
-package co.daylam.utilities;
+package jast.utilities;
 
-import co.daylam.antlr.JavaLexer;
-import co.daylam.antlr.JavaParser;
+
+import jast.antlr.JavaLexer;
+import jast.antlr.JavaParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.graphstream.graph.Graph;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,29 +46,29 @@ public class AntlrUtil {
         }
     }
 
-    public static void writeDOT(){
-        writeLabel();
-        int pos = 0;
-        for(int i=1; i<LineNum.size();i++){
-            pos=getPos(Integer.parseInt(LineNum.get(i))-1, i);
-            output = output.concat((Integer.parseInt(LineNum.get(i))-1)+Integer.toString(pos)+"->"+LineNum.get(i)+i);
+    public static void writeDOT() {
+        var astGraph = GraphUtil.getGraphInstance("AST");
+        writeLabel(astGraph);
+        for (int i = 1; i < LineNum.size(); i++) {
+            var pos = getPos(Integer.parseInt(LineNum.get(i)) - 1, i);
+            astGraph.addEdge(String.valueOf(i), (Integer.parseInt(LineNum.get(i)) - 1) + "" + pos, LineNum.get(i) + i);
+            output = output.concat((Integer.parseInt(LineNum.get(i)) - 1) + Integer.toString(pos) + "->" + LineNum.get(i) + i);
             output = output.concat("\n");
-//            System.out.println((Integer.parseInt(LineNum.get(i))-1)+Integer.toString(pos)+"->"+LineNum.get(i)+i);
         }
     }
 
-    private static void writeLabel(){
-        for(int i =0; i<LineNum.size(); i++){
+    private static void writeLabel(Graph astGraph) {
+        for (int i = 0; i < LineNum.size(); i++) {
+            astGraph.addNode(LineNum.get(i) + i).setAttribute("ui.label", Type.get(i)+"\\n "+Content.get(i)+" \"]");
             output = output.concat(LineNum.get(i)+i+"[label=\""+Type.get(i)+"\\n "+Content.get(i)+" \"]");
             output = output.concat("\n");
-//            System.out.println(LineNum.get(i)+i+"[label=\""+Type.get(i)+"\\n "+Content.get(i)+" \"]");
         }
     }
 
-    private static int getPos(int n, int limit){
+    private static int getPos(int n, int limit) {
         int pos = 0;
-        for(int i=0; i<limit;i++){
-            if(Integer.parseInt(LineNum.get(i))==n){
+        for (int i = 0; i < limit; i++) {
+            if (Integer.parseInt(LineNum.get(i)) == n) {
                 pos = i;
             }
         }
