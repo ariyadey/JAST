@@ -25,9 +25,7 @@ public class AntlrUtil {
         JavaLexer lexer = new JavaLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         JavaParser parser = new JavaParser(tokens);
-        var parserRuleContext = parser.compilationUnit();
-//        parserRuleContext.
-        return parserRuleContext;
+        return parser.compilationUnit();
     }
 
     public static void generateAST(RuleContext ruleContext, boolean verbose, int indentation) {
@@ -51,15 +49,12 @@ public class AntlrUtil {
     public static void writeDOT() {
         var astGraph = GraphUtil.getGraphInstance("AST");
         writeLabel(astGraph);
-        int pos = 0;
         for (int i = 1; i < LineNum.size(); i++) {
-            pos = getPos(Integer.parseInt(LineNum.get(i)) - 1, i);
-            astGraph.addEdge(String.valueOf(i), (Integer.parseInt(LineNum.get(i)) - 1) + "" + Integer.toString(pos), LineNum.get(i) + i);
+            var pos = getPos(Integer.parseInt(LineNum.get(i)) - 1, i);
+            astGraph.addEdge(String.valueOf(i), (Integer.parseInt(LineNum.get(i)) - 1) + "" + pos, LineNum.get(i) + i);
             output = output.concat((Integer.parseInt(LineNum.get(i)) - 1) + Integer.toString(pos) + "->" + LineNum.get(i) + i);
             output = output.concat("\n");
-//            System.out.println((Integer.parseInt(LineNum.get(i))-1)+Integer.toString(pos)+"->"+LineNum.get(i)+i);
         }
-        astGraph.display();
     }
 
     private static void writeLabel(Graph astGraph) {
@@ -67,7 +62,6 @@ public class AntlrUtil {
             astGraph.addNode(LineNum.get(i) + i).setAttribute("ui.label", Type.get(i)+"\\n "+Content.get(i)+" \"]");
             output = output.concat(LineNum.get(i)+i+"[label=\""+Type.get(i)+"\\n "+Content.get(i)+" \"]");
             output = output.concat("\n");
-//            System.out.println(LineNum.get(i)+i+"[label=\""+Type.get(i)+"\\n "+Content.get(i)+" \"]");
         }
     }
 

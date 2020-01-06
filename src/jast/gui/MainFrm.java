@@ -34,7 +34,9 @@ public class MainFrm extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void onOK() {
@@ -43,16 +45,14 @@ public class MainFrm extends JDialog {
             content = FileUtil.getFileContent(FileUtil.pathToInput);
         } else {
             content = textArea1.getText();
-            System.out.println(content);
         }
 
         AntlrUtil.generateAST(AntlrUtil.getRuleContext(content), false, 0);
         AntlrUtil.output = AntlrUtil.output.concat("digraph G {");
         AntlrUtil.output = AntlrUtil.output.concat("\n");
-//        System.out.println("digraph G {");
         AntlrUtil.writeDOT();
         AntlrUtil.output = AntlrUtil.output.concat("}");
-//        System.out.println("}");
+
         FileUtil.writeToFile(FileUtil.pathToOutput, AntlrUtil.output);
 
         setVisible(false);
@@ -60,7 +60,6 @@ public class MainFrm extends JDialog {
         finalMsg.textArea1.setText(FileUtil.getFileContent(FileUtil.pathToOutput));
         finalMsg.pack();
         finalMsg.setVisible(true);
-//        System.out.println(AntlrUtil.output);
         dispose();
     }
 

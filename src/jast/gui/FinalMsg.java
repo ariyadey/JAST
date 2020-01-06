@@ -1,5 +1,7 @@
 package jast.gui;
 
+import jast.utilities.GraphUtil;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,6 +17,7 @@ public class FinalMsg extends JDialog {
     private JButton buttonCancel;
     private JTextPane theASTHasBeenTextPane;
     JTextArea textArea1;
+    private JButton visualizeLocallyButton;
 
     public FinalMsg() {
         setContentPane(contentPane);
@@ -34,7 +37,14 @@ public class FinalMsg extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        visualizeLocallyButton.addActionListener(e -> {
+            GraphUtil.getGraphInstance("").display();
+            dispose();
+        });
     }
 
     private void onOK() {
