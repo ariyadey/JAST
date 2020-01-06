@@ -1,5 +1,6 @@
 package jast.utilities;
 
+
 import jast.antlr.JavaLexer;
 import jast.antlr.JavaParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -7,6 +8,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.graphstream.graph.Graph;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,9 @@ public class AntlrUtil {
         JavaLexer lexer = new JavaLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         JavaParser parser = new JavaParser(tokens);
-        return parser.compilationUnit();
+        var parserRuleContext = parser.compilationUnit();
+//        parserRuleContext.
+        return parserRuleContext;
     }
 
     public static void generateAST(RuleContext ruleContext, boolean verbose, int indentation) {
@@ -44,29 +48,33 @@ public class AntlrUtil {
         }
     }
 
-    public static void writeDOT(){
-        writeLabel();
+    public static void writeDOT() {
+        var astGraph = GraphUtil.getGraphInstance("AST");
+        writeLabel(astGraph);
         int pos = 0;
-        for(int i=1; i<LineNum.size();i++){
-            pos=getPos(Integer.parseInt(LineNum.get(i))-1, i);
-            output = output.concat((Integer.parseInt(LineNum.get(i))-1)+Integer.toString(pos)+"->"+LineNum.get(i)+i);
+        for (int i = 1; i < LineNum.size(); i++) {
+            pos = getPos(Integer.parseInt(LineNum.get(i)) - 1, i);
+            astGraph.addEdge(String.valueOf(i), (Integer.parseInt(LineNum.get(i)) - 1) + "" + Integer.toString(pos), LineNum.get(i) + i);
+            output = output.concat((Integer.parseInt(LineNum.get(i)) - 1) + Integer.toString(pos) + "->" + LineNum.get(i) + i);
             output = output.concat("\n");
 //            System.out.println((Integer.parseInt(LineNum.get(i))-1)+Integer.toString(pos)+"->"+LineNum.get(i)+i);
         }
+        astGraph.display();
     }
 
-    private static void writeLabel(){
-        for(int i =0; i<LineNum.size(); i++){
+    private static void writeLabel(Graph astGraph) {
+        for (int i = 0; i < LineNum.size(); i++) {
+            astGraph.addNode(LineNum.get(i) + i).setAttribute("ui.label", Type.get(i)+"\\n "+Content.get(i)+" \"]");
             output = output.concat(LineNum.get(i)+i+"[label=\""+Type.get(i)+"\\n "+Content.get(i)+" \"]");
             output = output.concat("\n");
 //            System.out.println(LineNum.get(i)+i+"[label=\""+Type.get(i)+"\\n "+Content.get(i)+" \"]");
         }
     }
 
-    private static int getPos(int n, int limit){
+    private static int getPos(int n, int limit) {
         int pos = 0;
-        for(int i=0; i<limit;i++){
-            if(Integer.parseInt(LineNum.get(i))==n){
+        for (int i = 0; i < limit; i++) {
+            if (Integer.parseInt(LineNum.get(i)) == n) {
                 pos = i;
             }
         }
